@@ -9,7 +9,10 @@ export const WebRTCTest: React.FC = () => {
 
   const peer = useMemo(() => {
     const p = new Peer({});
-    p.on('error', setErr)
+    p.on('error', (e) => {
+      console.error(e)
+      setErr(e)
+    })
     return p.on('message', console.log)
   }, [])
 

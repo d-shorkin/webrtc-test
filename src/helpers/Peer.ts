@@ -1,4 +1,5 @@
 import {EventEmitter} from "./EventEmitter";
+import freeice from 'freeice'
 
 export interface PeerConfig {
   channelName: string
@@ -32,26 +33,7 @@ export class Peer extends EventEmitter<PeerEvents> {
       ...config
     }
     this.peer = new RTCPeerConnection({
-      iceServers: [{
-        urls: [
-          'stun:stun.l.google.com:19302',
-          'stun:stun1.l.google.com:19302',
-          'stun:stun2.l.google.com:19302',
-          'stun:stun3.l.google.com:19302',
-          'stun:stun4.l.google.com:19302',
-          'stun:stun.nova.is:3478'
-        ]
-      }, {
-        urls: 'stun:stun.anyfirewall.com:3478'
-      }, {
-        urls: 'turn:turn.bistri.com:80',
-        credential: 'homeo',
-        username: 'homeo'
-      }, {
-        urls: 'turn:turn.anyfirewall.com:443?transport=tcp',
-        credential: 'webrtc',
-        username: 'webrtc'
-      }],
+      iceServers: freeice()
     });
 
     this.peer.addEventListener('track', (...args) => console.log('track', JSON.stringify(args)))

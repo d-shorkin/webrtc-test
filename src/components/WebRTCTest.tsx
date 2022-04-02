@@ -1,11 +1,17 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {Peer} from "../helpers/Peer";
+import {servers} from "./stunServers";
+import {stunChecker} from "./stunChecker";
 
 
 
 export const WebRTCTest: React.FC = () => {
   const [sdp, setSdp] = useState('');
   const [err, setErr] = useState<Error | null >(null)
+
+  useEffect(() => {
+    servers.map((v) => stunChecker(v).then(console.log))
+  }, [])
 
   const peer = useMemo(() => {
     const p = new Peer({});
